@@ -5,7 +5,6 @@
  */
 package brianeditor;
 
-import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 /**
@@ -44,24 +43,23 @@ public class FibonacciFinder extends javax.swing.JFrame {
         setBackground(new java.awt.Color(255, 51, 51));
         setResizable(false);
 
-        jTextField1.setBackground(new java.awt.Color(0, 255, 204));
-        jTextField1.setText("Enter term (eg 5)");
+        jTextField1.setBackground(new java.awt.Color(116, 185, 255));
+        jTextField1.setText("Enter term (3 to 92)");
         jTextField1.setMinimumSize(new java.awt.Dimension(129, 26));
 
-        jButton1.setBackground(new java.awt.Color(0, 255, 204));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/brianeditor/21624-trollface-meme-crazy.png"))); // NOI18N
+        jButton1.setBackground(new java.awt.Color(9, 132, 227));
         jButton1.setText("Calculate");
         jButton1.setContentAreaFilled(false);
         jButton1.setOpaque(true);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                performFibonacciCalculation();
             }
         });
 
-        jLabel1.setText("jLabel1");
+        jLabel1.setText("Answer will show here");
 
-        jTextArea1.setBackground(new java.awt.Color(0, 255, 204));
+        jTextArea1.setBackground(new java.awt.Color(223, 230, 233));
         jTextArea1.setColumns(10);
         jTextArea1.setRows(5);
         jTextArea1.setText("ANS LOG\n_____________");
@@ -71,7 +69,7 @@ public class FibonacciFinder extends javax.swing.JFrame {
 
         jScrollPane2.setToolTipText("Calculus");
 
-        jTextArea2.setBackground(new java.awt.Color(0, 255, 204));
+        jTextArea2.setBackground(new java.awt.Color(178, 190, 195));
         jTextArea2.setColumns(10);
         jTextArea2.setLineWrap(true);
         jTextArea2.setRows(50);
@@ -111,52 +109,41 @@ public class FibonacciFinder extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addGap(19, 19, 19)
+                    .addComponent(jLabel2)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jLabel1)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        
-            
-        
-        counter = 0;
-        jTextArea2.setText("Calculation steps\n______________\n");
+    private void performFibonacciCalculation() {
+        jTextArea2.setText("Calculation steps\n______________\n0: 0\n1: 1\n2: 1\n");
         input = Integer.parseInt(jTextField1.getText());
-        
-        
+
         y = 1;
         x = 1;
-        for (int i = 0; i < input; i++) {
-        z = x+y;
-        y = x;
-        x = z;
-        counter++;
-        jTextArea2.setText(jTextArea2.getText()+counter+": "+z+"\n");
+        for (int i = 3; i <= input; i++) {
+            z = x + y;
+            message = z < 0 ? "Exceeded maximum size" : z + "";
+            jTextArea2.setText(jTextArea2.getText() + i + ": " + message + "\n");
+            if (z < 0) break; // when a long turns negative, it has exceeded the size limit of longs in Java
+            y = x;
+            x = z;
         }
-        if ((z+"").length()>9) { //more than 1 billion
-            message = ">1bil";
-        }else{
-            message = z+"";
-        }
-        jLabel1.setText((input+"th term of the fibonacci sequence:\n"+message));
-        jTextArea1.setText(jTextArea1.getText()+"\n"+input+": "+message);
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+        jLabel1.setText((input + "th term of the fibonacci sequence:\n" + message));
+        jTextArea1.setText(jTextArea1.getText() + "\n" + input + ": " + message);
+    }
 
     /**
      * @param args the command line arguments
